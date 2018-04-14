@@ -16,7 +16,6 @@ public class Individual {
 
     public int calFitness(){
         sum = 0;
-        int c = 0;
         fitness = 0;
         for (int i = 0; i < Constants.chromesomeSize; i++) {
             if (genes[i] == true) {
