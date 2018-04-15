@@ -8,7 +8,6 @@ public class Individual {
     private int fitness;
     private int sum;
     private boolean[] genes;
-    Random random = new Random();
 
     public Individual() {
         genes = new boolean[Constants.chromesomeSize];
@@ -16,7 +15,6 @@ public class Individual {
 
     public int calFitness(){
         sum = 0;
-        int c = 0;
         fitness = 0;
         for (int i = 0; i < Constants.chromesomeSize; i++) {
             if (genes[i] == true) {

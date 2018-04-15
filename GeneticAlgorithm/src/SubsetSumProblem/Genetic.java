@@ -18,12 +18,6 @@ public class Genetic {
                 if (random.nextInt(4) == 1) oldP[i].getGenes()[j] = false;
                 else oldP[i].getGenes()[j] = true;
             }
-//            System.out.println(oldP[i].calFitness());
-//            int c = 0;
-//            for(int k=0;k<Constants.chromesomeSize;k++){
-//                if(oldP[i].getGenes()[k] == true) c++;
-//            }
-//            System.out.println(c);
         }
         return oldP;
     }
@@ -34,6 +28,7 @@ public class Genetic {
             children[i] = new Individual();
         }
         for (int i = 0; i < Constants.children; i++) {
+            // Three parts of parents
             int point1 = random.nextInt(Constants.chromesomeSize / 2 - 2) + 1;
             int point2 = random.nextInt(Constants.chromesomeSize / 2 - 1) + Constants.chromesomeSize / 2;
             for (int j = 0; j < point1; j++) children[i].getGenes()[j] = p1.getGenes()[j];
@@ -44,7 +39,7 @@ public class Genetic {
     }
 
     public void mutation(Individual individual) {
-        for (int j = 0; j < 50; j++) {
+        for (int k = 0; k < 50; k++) {
             int i = random.nextInt(Constants.chromesomeSize);
             if (individual.getGenes()[i]) individual.getGenes()[i] = false;
             else individual.getGenes()[i] = true;
@@ -55,9 +50,6 @@ public class Genetic {
         for (Individual individual : population) {
             individual.calFitness();
         }
-//        for(int i =0;i<Constants.populationSize;i++){
-//            System.out.println(population[i].getFitness());
-//        }
         Arrays.sort(population, (i1, i2) -> i2.getFitness() - i1.getFitness());
     }
 
@@ -85,7 +77,7 @@ public class Genetic {
         System.out.println("Generation: " + count + " Fittest one is: " + oldP[0].getFitness());
         try {
             bufferedWriter.newLine();
-            bufferedWriter.write( "0," + oldP[0].getFitness() );
+            bufferedWriter.write("0," + oldP[0].getFitness());
             bufferedWriter.newLine();
         } catch (IOException e) {
             e.printStackTrace();
@@ -102,9 +94,8 @@ public class Genetic {
                 int p2 = random.nextInt((int) (oldP.length * Constants.rate));
                 Individual[] children = genetic.crossover(oldP[p1], oldP[p2]);
                 for (int k = 0; k < children.length; k++) {
-                    if (j + k == Constants.populationSize) break;
+                    if (j + k == Constants.populationSize) break; // Full
                     if (random.nextInt(100) < 1) {
-//                        System.out.println(123123123);
                         genetic.mutation(children[k]);
                     }
                     newP[j + k] = children[k];
@@ -113,18 +104,26 @@ public class Genetic {
             genetic.selection(newP);
             if (newP[0].getFitness() == 0) {
                 System.out.println("Find the fittest! On generation " + count);
+                for (int m = 0; m < Constants.chromesomeSize; m++) {
+                    if (newP[0].getGenes()[m]) System.out.print(Constants.targetArr[m] + ", ");
+                }
                 return;
             }
             System.out.println("Generation: " + count + " Fittest one is: " + newP[0].getFitness());
 
             try {
-                bufferedWriter.write(count+","+newP[0].getFitness());
+                bufferedWriter.write(count + "," + newP[0].getFitness());
                 bufferedWriter.newLine();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
+            if (count == Constants.generationTimes) {
+                for (int m = 0; m < Constants.chromesomeSize; m++) {
+                    if (newP[0].getGenes()[m]) System.out.print(Constants.targetArr[m] + ", ");
+                }
+            }
             oldP = newP;
+
         }
 
         try {
