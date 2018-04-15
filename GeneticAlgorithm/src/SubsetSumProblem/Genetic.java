@@ -15,9 +15,15 @@ public class Genetic {
         Individual[] oldP = population.getPopulation();
         for (int i = 0; i < Constants.populationSize; i++) {
             for (int j = 0; j < Constants.chromesomeSize; j++) {
-                if (random.nextInt(4) == 1) oldP[i].getGenes()[j] = false;
+                if (random.nextInt(2) == 1) oldP[i].getGenes()[j] = false;
                 else oldP[i].getGenes()[j] = true;
             }
+//            System.out.println(oldP[i].calFitness());
+//            int c = 0;
+//            for(int k=0;k<Constants.chromesomeSize;k++){
+//                if(oldP[i].getGenes()[k] == true) c++;
+//            }
+//            System.out.println(c);
         }
         return oldP;
     }
@@ -38,15 +44,20 @@ public class Genetic {
     }
 
     public void mutation(Individual individual) {
-        int i = random.nextInt(Constants.chromesomeSize);
-        if (individual.getGenes()[i]) individual.getGenes()[i] = false;
-        else individual.getGenes()[i] = true;
+        for (int j = 0; j < 50; j++) {
+            int i = random.nextInt(Constants.chromesomeSize);
+            if (individual.getGenes()[i]) individual.getGenes()[i] = false;
+            else individual.getGenes()[i] = true;
+        }
     }
 
     public void selection(Individual[] population) {
         for (Individual individual : population) {
             individual.calFitness();
         }
+//        for(int i =0;i<Constants.populationSize;i++){
+//            System.out.println(population[i].getFitness());
+//        }
         Arrays.sort(population, (i1, i2) -> i2.getFitness() - i1.getFitness());
     }
 
@@ -74,7 +85,7 @@ public class Genetic {
         System.out.println("Generation: " + count + " Fittest one is: " + oldP[0].getFitness());
         try {
             bufferedWriter.newLine();
-            bufferedWriter.write("0," + oldP[0].getFitness());
+            bufferedWriter.write( "0," + oldP[0].getFitness() );
             bufferedWriter.newLine();
         } catch (IOException e) {
             e.printStackTrace();
@@ -93,6 +104,7 @@ public class Genetic {
                 for (int k = 0; k < children.length; k++) {
                     if (j + k == Constants.populationSize) break;
                     if (random.nextInt(100) < 1) {
+//                        System.out.println(123123123);
                         genetic.mutation(children[k]);
                     }
                     newP[j + k] = children[k];
@@ -106,7 +118,7 @@ public class Genetic {
             System.out.println("Generation: " + count + " Fittest one is: " + newP[0].getFitness());
 
             try {
-                bufferedWriter.write(count + "," + newP[0].getFitness());
+                bufferedWriter.write(count+","+newP[0].getFitness());
                 bufferedWriter.newLine();
             } catch (IOException e) {
                 e.printStackTrace();
