@@ -1,4 +1,5 @@
-package SubsetSumProblem;
+package main.java.SubsetSumProblem;
+
 
 import java.util.Random;
 

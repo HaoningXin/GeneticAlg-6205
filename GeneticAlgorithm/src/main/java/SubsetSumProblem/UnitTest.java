@@ -1,4 +1,4 @@
-package SubsetSumProblem;
+package main.java.SubsetSumProblem;
 
 import org.junit.Test;
 

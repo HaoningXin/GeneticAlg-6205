@@ -1,5 +1,4 @@
-package SubsetSumProblem;
-
+package main.java.SubsetSumProblem;
 
 public class Population {
 
